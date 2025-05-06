@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waitlist Modal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #00091a;
+            --secondary-color: #00091a;
+            --success-color: #4cc9f0;
+            --border-radius: 15px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            background-color: #c9c9c987;
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background-color: #6B7280;
+            width: 90%;
+            max-width: 500px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            position: relative;
+            animation: modalEntrance 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        @keyframes modalEntrance {
+            from {
+                transform: scale(0.8) translate(-100%, -100%);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translate(0, 0);
+                opacity: 1;
+            }
+        }
+
+        /* Modal Header */
+        .modal-header {
+            text-align: center;
+            padding: 20px;
+            background-color: #c9c9c987;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            width: 120px;
+            height: 120px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .image-placeholder i {
+            font-size: 50px;
+            color: #adb5bd;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        /* Form Elements */
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        /* Radio Buttons */
+        .custom-radio {
+            color: #FFFFFF;
+            font-weight: 600;
+            display: block;
+            position: relative;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .custom-radio:hover {
+            border-color: #ced4da;
+        }
+
+        .custom-radio input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .custom-radio .checkmark {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 20px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+        }
+
+        .custom-radio:hover input ~ .checkmark {
+            background-color: #ced4da;
+        }
+
+        .custom-radio input:checked ~ .checkmark {
+            background-color: var(--primary-color);
+        }
+
+        .custom-radio .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-radio input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-radio .checkmark:after {
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            border-radius: var(--border-radius);
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Steps */
+        .step {
+            display: none;
+            animation-duration: 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutLeft {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+        }
+
+        .fadeIn {
+            animation-name: fadeIn;
+        }
+
+        .fadeOut {
+            animation-name: fadeOut;
+        }
+
+        .slideInRight {
+            animation-name: slideInRight;
+        }
+
+        .slideOutLeft {
+            animation-name: slideOutLeft;
+        }
+
+        .slideInLeft {
+            animation-name: slideInLeft;
+        }
+
+        .slideOutRight {
+            animation-name: slideOutRight;
+        }
+
+        /* Success Animation */
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            position: relative;
+            animation: scaleIn 0.5s ease-in-out;
+        }
+
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid var(--success-color);
+        }
+
+        .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+
+        .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotate-circle 4.25s ease-in;
+        }
+
+        .check-icon::before, .check-icon::after {
+            content: '';
+            height: 100px;
+            position: absolute;
+            background: #FFFFFF;
+            transform: rotate(-45deg);
+        }
+
+        .check-icon .icon-line {
+            height: 5px;
+            background-color: var(--success-color);
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .check-icon .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s;
+        }
+
+        .check-icon .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s;
+        }
+
+        .check-icon .icon-circle {
+            top: -4px;
+            left: -4px;
+            z-index: 10;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            box-sizing: content-box;
+            border: 4px solid rgba(76, 201, 240, 0.5);
+        }
+
+        .check-icon .icon-fix {
+            top: 8px;
+            width: 5px;
+            left: 26px;
+            z-index: 1;
+            height: 85px;
+            position: absolute;
+            transform: rotate(-45deg);
+            background-color: #FFFFFF;
+        }
+
+        @keyframes rotate-circle {
+            0% {
+                transform: rotate(-45deg);
+            }
+            5% {
+                transform: rotate(-45deg);
+            }
+            12% {
+                transform: rotate(-405deg);
+            }
+            100% {
+                transform: rotate(-405deg);
+            }
+        }
+
+        @keyframes icon-line-tip {
+            0% {
+                width: 0;
+                left: 1px;
+                top: 19px;
+            }
+            54% {
+                width: 0;
+                left: 1px;
+                top: 19px;
+            }
+            70% {
+                width: 50px;
+                left: -8px;
+                top: 37px;
+            }
+            84% {
+                width: 17px;
+                left: 21px;
+                top: 48px;
+            }
+            100% {
+                width: 25px;
+                left: 14px;
+                top: 46px;
+            }
+        }
+
+        @keyframes icon-line-long {
+            0% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+            65% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+            84% {
+                width: 55px;
+                right: 0px;
+                top: 35px;
+            }
+            100% {
+                width: 47px;
+                right: 8px;
+                top: 38px;
+            }
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    color: var(--bs-btn-active-color);
+    background-color: #102b54;
+    border-color: var(--bs-btn-active-border-color);
+}
+    </style>
+</head>
+<body>
+    <!-- Modal Container - Automatically visible -->
+    <div class="modal-container" id="modalContainer">
+        <!-- Step 1: Name Input -->
+        <div class="step active" id="step1">
+            <div class="modal-header">
+                <div class="image-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">Kindly tell us your name</h2>
+                <div class="mb-3">
+                    <!-- <label for="firstname" class="form-label">Firstname</label> -->
+                    <input type="text" class="form-control" id="firstname" placeholder="Enter your first name">
+                </div>
+                <div class="mb-3">
+                    <!-- <label for="lastname" class="form-label">Lastname</label> -->
+                    <input type="text" class="form-control" id="lastname" placeholder="Enter your last name">
+                </div>
+                <div class="btn-container">
+                    <div></div> <!-- Empty div for spacing -->
+                    <button class="btn btn-primary" id="nextStep1">Next Step</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Email Input -->
+        <div class="step" id="step2">
+            <div class="modal-header">
+                <div class="image-placeholder">
+                    <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">Input Your Email</h2>
+                <div class="mb-3">
+                    <!-- <label for="email" class="form-label">Email Address</label> -->
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email address">
+                </div>
+                <div class="btn-container">
+                    <button class="btn btn-secondary" id="prevStep2">Back</button>
+                    <button class="btn btn-primary" id="nextStep2">Next Step</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Radio Options -->
+        <div class="step" id="step3">
+            <div class="modal-header">
+                <div class="image-placeholder">
+                    <i class="fas fa-brain"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">In the World full of insanity</h2>
+                
+                <label class="custom-radio">
+                    I chose to follow the right path
+                    <input type="checkbox" name="path" value="option1">
+                    <span class="checkmark"></span>
+                </label>
+                
+                <label class="custom-radio">
+                    I chose to follow the right path
+                    <input type="checkbox" name="path" value="option2">
+                    <span class="checkmark"></span>
+                </label>
+                
+                <label class="custom-radio">
+                    I chose to follow the right path
+                    <input type="checkbox" name="path" value="option3">
+                    <span class="checkmark"></span>
+                </label>
+                
+                <label class="custom-radio">
+                    I chose to follow the right path
+                    <input type="checkbox" name="path" value="option4">
+                    <span class="checkmark"></span>
+                </label>
+                
+                <div class="btn-container">
+                    <button class="btn btn-secondary" id="prevStep3">Back</button>
+                    <button class="btn btn-primary" id="finalize">Finalize</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="step" id="step4">
+            <div class="modal-header">
+                <div class="image-placeholder">
+                    <div class="success-checkmark">
+                        <div class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">Hurray, You've Begin your journey into the world of clarity and inner Peace...See you inside</h2>
+                <div class="btn-container">
+                    <div></div> <!-- Empty div for spacing -->
+                    <button class="btn btn-primary" id="closeModal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const modalContainer = document.getElementById('modalContainer');
+            const closeModalBtn = document.getElementById('closeModal');
+            
+            // Step Navigation Buttons
+            const nextStep1Btn = document.getElementById('nextStep1');
+            const nextStep2Btn = document.getElementById('nextStep2');
+            const prevStep2Btn = document.getElementById('prevStep2');
+            const prevStep3Btn = document.getElementById('prevStep3');
+            const finalizeBtn = document.getElementById('finalize');
+            
+            // Steps
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const step4 = document.getElementById('step4');
+            
+            // Form Inputs
+            const firstnameInput = document.getElementById('firstname');
+            const lastnameInput = document.getElementById('lastname');
+            const emailInput = document.getElementById('email');
+            
+            // Close Modal - Communicate with parent window
+            closeModalBtn.addEventListener('click', function() {
+                // Redirect to index.html
+                window.location.href = 'index.html';
+
+                // Optional: Reset form (if needed before redirect)
+                // resetForm(); // Only use this if index.html reuses the form
+            });
+
+            
+            // Step 1 to Step 2
+            nextStep1Btn.addEventListener('click', function() {
+                if (validateStep1()) {
+                    animateStepTransition(step1, step2, 'next');
+                }
+            });
+            
+            // Step 2 to Step 3
+            nextStep2Btn.addEventListener('click', function() {
+                if (validateStep2()) {
+                    animateStepTransition(step2, step3, 'next');
+                }
+            });
+            
+            // Step 2 back to Step 1
+            prevStep2Btn.addEventListener('click', function() {
+                animateStepTransition(step2, step1, 'prev');
+            });
+            
+            // Step 3 back to Step 2
+            prevStep3Btn.addEventListener('click', function() {
+                animateStepTransition(step3, step2, 'prev');
+            });
+            
+            // Step 3 to Step 4 (Success)
+            finalizeBtn.addEventListener('click', function() {
+                if (validateStep3()) {
+                    animateStepTransition(step3, step4, 'next');
+                    
+                    // Optional: Send form data to parent window
+                    if (window.parent) {
+                        const formData = {
+                            firstname: firstnameInput.value,
+                            lastname: lastnameInput.value,
+                            email: emailInput.value,
+                            path: document.querySelector('input[name="path"]:checked').value
+                        };
+                        
+                        window.parent.postMessage({
+                            type: 'waitlistFormSubmitted',
+                            data: formData
+                        }, '*');
+                    }
+                }
+            });
+            
+            // Validate Step 1
+            function validateStep1() {
+                if (firstnameInput.value.trim() === '') {
+                    showError(firstnameInput, 'Please enter your first name');
+                    return false;
+                }
+                
+                if (lastnameInput.value.trim() === '') {
+                    showError(lastnameInput, 'Please enter your last name');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Validate Step 2
+            function validateStep2() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (emailInput.value.trim() === '') {
+                    showError(emailInput, 'Please enter your email address');
+                    return false;
+                }
+                
+                if (!emailRegex.test(emailInput.value.trim())) {
+                    showError(emailInput, 'Please enter a valid email address');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Validate Step 3
+            function validateStep3() {
+                const radioButtons = document.querySelectorAll('input[name="path"]');
+                let isChecked = false;
+                
+                radioButtons.forEach(function(radio) {
+                    if (radio.checked) {
+                        isChecked = true;
+                    }
+                });
+                
+                if (!isChecked) {
+                    alert('Please select one option');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Show Error
+            function showError(input, message) {
+                input.classList.add('is-invalid');
+                
+                // Create error message if it doesn't exist
+                let errorDiv = input.nextElementSibling;
+                if (!errorDiv || !errorDiv.classList.contains('invalid-feedback')) {
+                    errorDiv = document.createElement('div');
+                    errorDiv.className = 'invalid-feedback';
+                    input.parentNode.insertBefore(errorDiv, input.nextSibling);
+                }
+                
+                errorDiv.textContent = message;
+                
+                // Remove error after 3 seconds
+                setTimeout(() => {
+                    input.classList.remove('is-invalid');
+                    if (errorDiv) {
+                        errorDiv.textContent = '';
+                    }
+                }, 3000);
+            }
+            
+            // Animate Step Transition
+            function animateStepTransition(currentStep, nextStep, direction) {
+                // Set animation classes based on direction
+                let currentStepOutAnimation, nextStepInAnimation;
+                
+                if (direction === 'next') {
+                    currentStepOutAnimation = 'slideOutLeft';
+                    nextStepInAnimation = 'slideInRight';
+                } else {
+                    currentStepOutAnimation = 'slideOutRight';
+                    nextStepInAnimation = 'slideInLeft';
+                }
+                
+                // Animate current step out
+                currentStep.classList.add(currentStepOutAnimation);
+                
+                // After animation completes, hide current step and show next step
+                setTimeout(() => {
+                    currentStep.classList.remove('active', currentStepOutAnimation);
+                    nextStep.classList.add('active', nextStepInAnimation);
+                    
+                    // Remove animation class after it completes
+                    setTimeout(() => {
+                        nextStep.classList.remove(nextStepInAnimation);
+                    }, 500);
+                }, 500);
+            }
+            
+            // Reset Form
+            function resetForm() {
+                // Reset all inputs
+                firstnameInput.value = '';
+                lastnameInput.value = '';
+                emailInput.value = '';
+                
+                // Uncheck all radio buttons
+                const radioButtons = document.querySelectorAll('input[name="path"]');
+                radioButtons.forEach(function(radio) {
+                    radio.checked = false;
+                });
+                
+                // Reset to step 1
+                step1.classList.add('active');
+                step2.classList.remove('active');
+                step3.classList.remove('active');
+                step4.classList.remove('active');
+            }
+            
+            // Listen for messages from parent window
+            window.addEventListener('message', function(event) {
+                if (event.data === 'resetWaitlistForm') {
+                    resetForm();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

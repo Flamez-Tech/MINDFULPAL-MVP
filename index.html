@@ -20,6 +20,7 @@
     <link href="assets/css/plugins.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
 
+
     <!-- <style>
 
         /* Mobile panel styles */
@@ -140,6 +141,9 @@
             <div class="preloader-progress"></div>
         </div>
     </div>
+
+    <iframe id="modalOverlay" src="modal.html" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; border: none; z-index: 9999; background: rgba(0,0,0,0.5);"></iframe>
+
 
     <!-- Nav Bar -->
     <div class="dsn-nav-bar">
@@ -267,7 +271,7 @@
 
                                         <p>When your mind races ahead, worrying about what's next, pause — and return to the only moment you truly have: now.</p>
 
-                                        <div class="link-custom">
+                                        <div class="link-custom" onclick="showModal()">
                                             <a href="#" class="image-zoom effect-ajax" data-dsn="parallax"
                                                 data-dsn-ajax="slider">
                                                 <span>Join the Sane</span>
@@ -277,6 +281,7 @@
                                     </div>
                                 </div>
 
+ 
 
                                 <div class="image-container">
                                     <div class="image-bg cover-bg" data-image-src="assets/img/project/project2/3.png"
@@ -306,7 +311,7 @@
                                         <p>Sometimes, we need to check the time, wondering when our work
                                             or meeting will finish, without getting caught by others.</p>
 
-                                        <div class="link-custom">
+                                        <div class="link-custom" onclick="showModal()">
                                             <a href="#" class="image-zoom effect-ajax" data-dsn="parallax"
                                                 data-dsn-ajax="slider">
                                                 <span>Join the Sane</span>
@@ -491,7 +496,7 @@
 
             <div class="wrapper">
 
-                <section class="intro-about section-margin">
+                <section class="intro-about section-margin" id="About">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6">
@@ -504,7 +509,7 @@
 
                                     <p data-dsn-animate="text">Founded in 2024, MindfulPal exists to help people reconnect with their inner calm, build emotional resilience, and navigate life with greater presence and intention — one mindful moment at a time.</p>
 
-                                    <h6 data-dsn-animate="text">OLUWAKANYINSOLAMI AKINTEYE</h6>
+                                    <h6 data-dsn-animate="text">OLUWAKANYINSOLA AKINTEYE</h6>
                                     <small data-dsn-animate="text">FOUNDER</small>
 
                                     <div class="exper">
@@ -554,7 +559,7 @@
                                 <p class="feature-description">Web design encompasses many different skills and disciplines in the production of all web.</p>
                             </div>
                             <div class="feature-card-back">
-                                <button class="waitlist-btn" style="">Join Waitlist</button>
+                                <button class="waitlist-btn" onclick="showModal()">Join Waitlist</button>
                             </div>
                         </div>
                     </div>
@@ -577,7 +582,7 @@
                                 <p class="feature-description">Web design encompasses many different skills and disciplines in the production of all web.</p>
                             </div>
                             <div class="feature-card-back">
-                                <button class="waitlist-btn">Join Waitlist</button>
+                                <button class="waitlist-btn"  onclick="showModal()">Join Waitlist</button>
                             </div>
                         </div>
                     </div>
@@ -600,7 +605,7 @@
                                 <p class="feature-description">Web design encompasses many different skills and disciplines in the production of all web.</p>
                             </div>
                             <div class="feature-card-back">
-                                <button class="waitlist-btn">Join Waitlist</button>
+                                <button class="waitlist-btn"  onclick="showModal()">Join Waitlist</button>
                             </div>
                         </div>
                     </div>
@@ -622,7 +627,7 @@
                                 <p class="feature-description">Web design encompasses many different skills and disciplines in the production of all web.</p>
                             </div>
                             <div class="feature-card-back">
-                                <button class="waitlist-btn">Join Waitlist</button>
+                                <button class="waitlist-btn"  onclick="showModal()">Join Waitlist</button>
                             </div>
                         </div>
                     </div>
@@ -644,7 +649,7 @@
                                 <p class="feature-description">Web design encompasses many different skills and disciplines in the production of all web.</p>
                             </div>
                             <div class="feature-card-back">
-                                <button class="waitlist-btn">Join Waitlist</button>
+                                <button class="waitlist-btn"  onclick="showModal()">Join Waitlist</button>
                             </div>
                         </div>
                     </div>
@@ -666,7 +671,7 @@
                                 <p class="feature-description">Web design encompasses many different skills and disciplines in the production of all web.</p>
                             </div>
                             <div class="feature-card-back">
-                                <button class="waitlist-btn">Join Waitlist</button>
+                                <button class="waitlist-btn"  onclick="showModal()">Join Waitlist</button>
                             </div>
                         </div>
                     </div>
@@ -695,59 +700,14 @@
                 </div>
 
 
-                <!-- <div class=" box-gallery-vertical section-margin section-padding" data-dsn="color">
-                    <div class="mask-bg"></div>
-                    <div class="container">
-                        <div class="row align-items-center h-100">
-                            <div class="col-lg-6 ">
-                                <div class="box-im" data-dsn-grid="move-up">
-                                    <img class="has-top-bottom" src="assets/img/project/project9/7.jpg" alt=""
-                                        data-dsn-move="20%">
-                                </div>
-                            </div>
 
-                           <div class="col-lg-6">
-
-
-                                <div class="box-info">
-
-                                    <div class="vertical-title" data-dsn-animate="up">
-                                        <h2>Time Tag Watch.</h2>
-                                    </div>
-
-                                    <h6 data-dsn-animate="up">Sometimes, we need to check the time, wondering when our
-                                        work
-                                        or meeting will finish, without getting caught by others.</h6>
-
-                                    <p data-dsn-animate="up">To avoid your boss’s
-                                        staring eye, you should not roll your eyes to check the time. The Time Tag Watch
-                                        is
-                                        a consummately appropriate for it.
-                                        Those tags do the role of the hands of the watch. By rotating the face of the
-                                        watch
-                                        not the hands, it gets harder to be damaged. It provides you with experience to
-                                        feel
-                                        the time at the end of your finger without damaging your watch.</p>
-
-                                    <div class="link-custom" data-dsn-animate="up">
-                                        <a class="image-zoom effect-ajax" href="#" data-dsn="parallax">
-                                            <span>Learn More</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> 
-
-                        </div>
-                    </div>
-                </div> -->
-<!-- 
-                <section class="client-see section-margin">
+                <section class="client-see section-margin" id="words"> 
                     <div class="container">
                         <div class="inner">
                             <div class="left">
                                 <h2 class="title" data-dsn-grid="move-section" data-dsn-move="-60"
                                     data-dsn-duration="100%" data-dsn-opacity="1" data-dsn-responsive="tablet">
-                                    <span class="text">Feedback from our clients.</span>
+                                    <span class="text">Words from the team:</span>
                                 </h2>
                             </div>
 
@@ -756,51 +716,42 @@
                                 <div class="slick-slider">
                                     <div class="item">
                                         <div class="quote">
-                                            <p>"The Brief team has been sincerely committed to
-                                                designing great communication around our projects. Our customers love
-                                                their
-                                                creative work - and so do we!"</p>
+                                            <p>"We believe mental wellness should be accessible, stigma-free, and personal."</p>
                                         </div>
                                         <div class="bottom">
                                             <div class="avatar">
                                                 <img src="assets/img/avatar/1.jpg" alt="">
                                             </div>
                                             <div class="label">
-                                                <div class="cell">- Helen Ginsberg, CEO of Treasure Island</div>
+                                                <div class="cell">- OLUWAKANYINSOLA, Founder</div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="item">
                                         <div class="quote">
-                                            <p>"Stage direction, music, ballet, workshops, backstage, the GTG presents
-                                                the
-                                                first
-                                                episode of the series “Les Indes galantes en création"</p>
+                                            <p>"We believe mental wellness should be accessible, stigma-free, and personal."</p>
                                         </div>
                                         <div class="bottom">
                                             <div class="avatar">
                                                 <img src="assets/img/avatar/2.jpg" alt="">
                                             </div>
                                             <div class="label">
-                                                <div class="cell">- Helen Ginsberg, CEO of Treasure Island</div>
+                                                <div class="cell">- Helen, Team Leader</div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="item">
                                         <div class="quote">
-                                            <p>"The Brief team has been sincerely committed to
-                                                designing great communication around our projects. Our customers love
-                                                their
-                                                creative work - and so do we!"</p>
+                                            <p>"We believe mental wellness should be accessible, stigma-free, and personal."</p>
                                         </div>
                                         <div class="bottom">
                                             <div class="avatar">
                                                 <img src="assets/img/avatar/3.jpg" alt="">
                                             </div>
                                             <div class="label">
-                                                <div class="cell">- Helen Ginsberg, CEO of Treasure Island</div>
+                                                <div class="cell">- Ginsberg, Therapist</div>
                                             </div>
                                         </div>
                                     </div>
@@ -810,7 +761,7 @@
                     </div>
                 </section>
 
-                <section class="our-news section-margin">
+                <!-- <section class="our-news section-margin">
                     <div class="container">
                         <div class="one-title" data-dsn-animate="up">
                             <div class="title-sub-container">
@@ -1003,18 +954,19 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
 
                 <section class="contact-up section-margin section-padding">
                     <div class="container">
                         <div class="c-wapp">
                             <a href="contact.html" class="effect-ajax">
                                 <span class="hiring">
-                                    We are hiring
+                                    BE THE FIRST TO KNOW WHEN WE LAUNCH
                                 </span>
-                                <span class="career">
-                                    Dare and contact us immediately!
-                                </span>
+                                <img src="assets/img/avatar/avatar.png" alt="">
+                                <!-- <span class="career">
+                                    Join Waitlist
+                                </span> -->
                             </a>
                         </div>
                     </div>
@@ -1051,10 +1003,10 @@
                                     <h4 class="footer-title">Navigation</h4>
                                     <nav>
                                         <ul>
-                                            <li><a href="#">Portfolio</a>
+                                            <li><a href="#">Home</a>
                                             </li>
-                                            <li><a href="#">About</a></li>
-                                            <li><a href="#">News</a></li>
+                                            <li><a href="#About">About</a></li>
+                                            <li><a href="#">Help</a></li>
                                             <li><a href="#">Contact</a>
                                             </li>
                                         </ul>
@@ -1068,18 +1020,19 @@
                                     <p><strong>T</strong> <span>:</span> +001 225 3351</p>
                                     <p><strong>F</strong> <span>:</span>+001 225 3351</p>
                                     <p class="over-hidden"><strong>E</strong> <span>:</span><a class="link-hover"
-                                            data-hover-text="info@dsngrid.com" href="#">info@dsngrid.com</a>
+                                            data-hover-text="info@mindfulpal.com" href="#">info@mindfulpal.com</a>
                                     </p>
                                 </div>
                             </div>
 
                             <div class="col-md-3 dsn-col-footer">
                                 <div class="col-address">
-                                    <h4 class="footer-title">Address</h4>
+                                    <h4 class="footer-title">Mantra</h4>
 
-                                    <p>El-Mahalla El-Kubra 37<br>
-                                        1776 Damietta<br>
-                                        Egypt</p>
+                                    <p>“You can’t stop the waves,
+                                        but you can learn to surf.”<br>
+                                        <br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; – Jon Kabat-Zinn</p>
                                 </div>
                             </div>
                         </div>
@@ -1087,15 +1040,15 @@
 
                     <div class="copyright">
                         <div class="text-center">
-                            <p>© 2020 Droow Digital Agency</p>
-                            <div class="copright-text over-hidden">Designed by <a class="link-hover"
-                                    data-hover-text="DSN Grid" href="#" target="_blank">DSN Grid</a>
+                            <p>© 2025 Mindfulpal </p>
+                            <div class="copright-text over-hidden"> <a class="link-hover"
+                                    data-hover-text="Who Built This?" href="https://codewithflamez.netlify.app" target="_blank">Who Built This?</a>
                             </div>
 
                         </div>
                     </div>
                 </div>
-            </footer> -->
+            </footer> 
 
         </div>
     </main>
@@ -1126,6 +1079,11 @@
     </div>
     <!-- End cursor -->
 
+    <script>
+  function showModal() {
+    document.getElementById('modalOverlay').style.display = 'block';
+  }
+</script>
     <!-- Optional JavaScript -->
     <script src="assets/js/jquery-3.1.1.min.js"></script>
     <script src="assets/js/plugins.js"></script>
@@ -1133,6 +1091,4 @@
     <script src="assets/js/custom.js"></script>
 </body>
 
-
-<!-- Mirrored from template.dsngrid.com/droow/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Jan 2025 22:20:13 GMT -->
 </html>
