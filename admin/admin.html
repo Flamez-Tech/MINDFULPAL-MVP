@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindfulpal Waitlist Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+        <span class="loader"></span>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-user-shield"></i>
+                <span>Mindfulpal Admin</span>
+            </div>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#dashboard" data-bs-toggle="tab">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#users" data-bs-toggle="tab">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#analytics" data-bs-toggle="tab">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#settings" data-bs-toggle="tab">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#activity" data-bs-toggle="tab">
+                    <i class="fas fa-history"></i>
+                    <span>Activity Log</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="#" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="tab-content">
+            <!-- Dashboard Tab -->
+            <div class="tab-pane fade show active" id="dashboard">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Dashboard</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <span id="dateRangeText">Last 7 days</span>
+                        </button>
+                        <button class="btn btn-primary" id="refreshBtn">
+                            <i class="fas fa-sync-alt me-2"></i>
+                            Refresh Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color);">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 id="totalUsers">1,248</h3>
+                                        <p>Total Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(255, 149, 0, 0.1); color: #ff9500;">
+                                        <i class="fas fa-user-clock"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 id="pendingUsers">342</h3>
+                                        <p>Pending Approval</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.1); color: #28a745;">
+                                        <i class="fas fa-user-check"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 id="approvedUsers">856</h3>
+                                        <p>Approved Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(220, 53, 69, 0.1); color: #dc3545;">
+                                        <i class="fas fa-user-times"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 id="rejectedUsers">50</h3>
+                                        <p>Rejected Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row mb-4">
+                    <div class="col-md-8 mb-3">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span>Registration Trend</span>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary active" data-period="week">Week</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-period="month">Month</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-period="year">Year</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="registrationChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>User Status Distribution</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="statusChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Users -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Recent Registrations</span>
+                        <a href="#users" class="btn btn-sm btn-primary" data-bs-toggle="tab">View All</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Registration Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentUsersTable">
+                                    <tr>
+                                        <td>John Doe</td>
+                                        <td>john.doe@example.com</td>
+                                        <td>2023-05-15 14:30</td>
+                                        <td><span class="badge badge-pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-action btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn btn-action btn-reject"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jane Smith</td>
+                                        <td>jane.smith@example.com</td>
+                                        <td>2023-05-15 13:45</td>
+                                        <td><span class="badge badge-approved">Approved</span></td>
+                                        <td>
+                                            <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-action btn-reject"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Robert Johnson</td>
+                                        <td>robert.johnson@example.com</td>
+                                        <td>2023-05-15 12:20</td>
+                                        <td><span class="badge badge-rejected">Rejected</span></td>
+                                        <td>
+                                            <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-action btn-approve"><i class="fas fa-check"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Emily Davis</td>
+                                        <td>emily.davis@example.com</td>
+                                        <td>2023-05-15 11:15</td>
+                                        <td><span class="badge badge-pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-action btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn btn-action btn-reject"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Michael Wilson</td>
+                                        <td>michael.wilson@example.com</td>
+                                        <td>2023-05-15 10:30</td>
+                                        <td><span class="badge badge-approved">Approved</span></td>
+                                        <td>
+                                            <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-action btn-reject"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div class="tab-pane fade" id="users">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Waitlist Users</h2>
+                    <div class="export-buttons">
+                        <button class="btn btn-outline-secondary" id="exportCSV">
+                            <i class="fas fa-file-csv me-2"></i>
+                            Export CSV
+                        </button>
+                        <button class="btn btn-outline-secondary" id="exportExcel">
+                            <i class="fas fa-file-excel me-2"></i>
+                            Export Excel
+                        </button>
+                        <button class="btn btn-outline-secondary" id="printData">
+                            <i class="fas fa-print me-2"></i>
+                            Print
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filter-container mb-4">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search by name, email...">
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <select class="form-select" id="statusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 mb-3">
+                            <div class="date-range">
+                                <input type="date" class="form-control" id="startDate" placeholder="Start Date">
+                                <input type="date" class="form-control" id="endDate" placeholder="End Date">
+                                <button class="btn btn-primary" id="applyDateFilter">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="bulkActionSwitch">
+                                    <label class="form-check-label" for="bulkActionSwitch">Enable Bulk Actions</label>
+                                </div>
+                                <div class="bulk-actions" style="display: none;">
+                                    <button class="btn btn-success me-2" id="bulkApprove">
+                                        <i class="fas fa-check me-2"></i>
+                                        Approve Selected
+                                    </button>
+                                    <button class="btn btn-danger me-2" id="bulkReject">
+                                        <i class="fas fa-times me-2"></i>
+                                        Reject Selected
+                                    </button>
+                                    <button class="btn btn-danger" id="bulkDelete">
+                                        <i class="fas fa-trash me-2"></i>
+                                        Delete Selected
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAll" disabled>
+                                        </div>
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Registration Date</th>
+                                    <th>Status</th>
+                                    <th>Selected Paths</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input user-select" type="checkbox" disabled>
+                                        </div>
+                                    </td>
+                                    <td>John Doe</td>
+                                    <td>john.doe@example.com</td>
+                                    <td>2023-05-15 14:30</td>
+                                    <td><span class="badge badge-pending">Pending</span></td>
+                                    <td>
+                                        <span class="path-tag">Option 1</span>
+                                        <span class="path-tag">Option 3</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-action btn-approve"><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-action btn-reject"><i class="fas fa-times"></i></button>
+                                        <button class="btn btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input user-select" type="checkbox" disabled>
+                                        </div>
+                                    </td>
+                                    <td>Jane Smith</td>
+                                    <td>jane.smith@example.com</td>
+                                    <td>2023-05-15 13:45</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                    <td>
+                                        <span class="path-tag">Option 2</span>
+                                        <span class="path-tag">Option 4</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-action btn-reject"><i class="fas fa-times"></i></button>
+                                        <button class="btn btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input user-select" type="checkbox" disabled>
+                                        </div>
+                                    </td>
+                                    <td>Robert Johnson</td>
+                                    <td>robert.johnson@example.com</td>
+                                    <td>2023-05-15 12:20</td>
+                                    <td><span class="badge badge-rejected">Rejected</span></td>
+                                    <td>
+                                        <span class="path-tag">Option 1</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-action btn-view" data-bs-toggle="modal" data-bs-target="#userDetailsModal"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-action btn-approve"><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-action btn-delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <span>Showing <span id="startRecord">1</span> to <span id="endRecord">10</span> of <span id="totalRecords">100</span> entries</span>
+                        </div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-pane fade" id="analytics">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Analytics</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <span>Last 30 days</span>
+                        </button>
+                        <button class="btn btn-primary" id="exportAnalytics">
+                            <i class="fas fa-download me-2"></i>
+                            Export Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Analytics Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color);">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3>68.5%</h3>
+                                        <p>Completion Rate</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(255, 149, 0, 0.1); color: #ff9500;">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3>2m 18s</h3>
+                                        <p>Avg. Completion Time</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.1); color: #28a745;">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3>78.2%</h3>
+                                        <p>Approval Rate</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-card">
+                                    <div class="stat-icon" style="background-color: rgba(220, 53, 69, 0.1); color: #dc3545;">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3>12.5%</h3>
+                                        <p>Rejection Rate</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Charts -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Registration by Time of Day</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="timeOfDayChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Path Selection Distribution</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="pathDistributionChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Conversion Funnel</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="conversionFunnelChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-pane fade" id="settings">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Settings</h2>
+                    <button class="btn btn-primary" id="saveSettings">
+                        <i class="fas fa-save me-2"></i>
+                        Save Changes
+                    </button>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Email Notifications</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="newRegistrationNotif" checked>
+                                        <label class="form-check-label" for="newRegistrationNotif">New Registration Notifications</label>
+                                    </div>
+                                    <small class="text-muted">Receive an email when a new user registers</small>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="dailySummaryNotif" checked>
+                                        <label class="form-check-label" for="dailySummaryNotif">Daily Summary</label>
+                                    </div>
+                                    <small class="text-muted">Receive a daily summary of registrations</small>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="weeklyReportNotif" checked>
+                                        <label class="form-check-label" for="weeklyReportNotif">Weekly Report</label>
+                                    </div>
+                                    <small class="text-muted">Receive a weekly analytics report</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notificationEmail" class="form-label">Notification Email</label>
+                                    <input type="email" class="form-control" id="notificationEmail" value="admin@example.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Auto-Approval Settings</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="enableAutoApproval">
+                                        <label class="form-check-label" for="enableAutoApproval">Enable Auto-Approval</label>
+                                    </div>
+                                    <small class="text-muted">Automatically approve users based on criteria</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="autoApprovalDelay" class="form-label">Auto-Approval Delay (hours)</label>
+                                    <input type="number" class="form-control" id="autoApprovalDelay" value="24">
+                                    <small class="text-muted">Time to wait before auto-approving</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Auto-Approval Criteria</label>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="criteriaValidEmail" checked>
+                                        <label class="form-check-label" for="criteriaValidEmail">Valid Email Domain</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="criteriaCompletedForm" checked>
+                                        <label class="form-check-label" for="criteriaCompletedForm">Completed All Form Fields</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="criteriaSelectedPaths">
+                                        <label class="form-check-label" for="criteriaSelectedPaths">Selected Specific Paths</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Email Templates</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="emailTemplatesTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="welcome-tab" data-bs-toggle="tab" data-bs-target="#welcome" type="button" role="tab">Welcome Email</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="approval-tab" data-bs-toggle="tab" data-bs-target="#approval" type="button" role="tab">Approval Email</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="rejection-tab" data-bs-toggle="tab" data-bs-target="#rejection" type="button" role="tab">Rejection Email</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content p-3 border border-top-0 rounded-bottom" id="emailTemplatesContent">
+                                    <div class="tab-pane fade show active" id="welcome" role="tabpanel">
+                                        <div class="mb-3">
+                                            <label for="welcomeSubject" class="form-label">Subject</label>
+                                            <input type="text" class="form-control" id="welcomeSubject" value="Welcome to Our Waitlist!">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="welcomeBody" class="form-label">Email Body</label>
+                                            <textarea class="form-control" id="welcomeBody" rows="10">
+Dear {{firstName}},
+
+Thank you for joining our waitlist! We're excited to have you on board.
+
+Your registration has been received and is currently pending review. We'll notify you once your application has been processed.
+
+In the meantime, feel free to reach out if you have any questions.
+
+Best regards,
+The Team
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="approval" role="tabpanel">
+                                        <div class="mb-3">
+                                            <label for="approvalSubject" class="form-label">Subject</label>
+                                            <input type="text" class="form-control" id="approvalSubject" value="Your Waitlist Application Has Been Approved!">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="approvalBody" class="form-label">Email Body</label>
+                                            <textarea class="form-control" id="approvalBody" rows="10">
+Dear {{firstName}},
+
+Great news! Your waitlist application has been approved.
+
+You can now access our platform using the following link:
+{{accessLink}}
+
+We're excited to have you join our community and can't wait to see what you'll accomplish.
+
+Best regards,
+The Team
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="rejection" role="tabpanel">
+                                        <div class="mb-3">
+                                            <label for="rejectionSubject" class="form-label">Subject</label>
+                                            <input type="text" class="form-control" id="rejectionSubject" value="Update on Your Waitlist Application">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="rejectionBody" class="form-label">Email Body</label>
+                                            <textarea class="form-control" id="rejectionBody" rows="10">
+Dear {{firstName}},
+
+Thank you for your interest in our platform.
+
+After careful review, we regret to inform you that we are unable to approve your waitlist application at this time.
+
+Please feel free to apply again in the future as our criteria may change.
+
+Best regards,
+The Team
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Log Tab -->
+            <div class="tab-pane fade" id="activity">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Activity Log</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-filter me-2"></i>
+                            Filter
+                        </button>
+                        <button class="btn btn-primary" id="exportActivity">
+                            <i class="fas fa-download me-2"></i>
+                            Export Log
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="activity-log">
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color);">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>New User Registration</h6>
+                                    <p>John Doe (john.doe@example.com) registered to the waitlist.</p>
+                                    <span class="activity-time">Today, 14:30</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(40, 167, 69, 0.1); color: #28a745;">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>User Approved</h6>
+                                    <p>Admin approved Jane Smith (jane.smith@example.com).</p>
+                                    <span class="activity-time">Today, 13:45</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(220, 53, 69, 0.1); color: #dc3545;">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>User Rejected</h6>
+                                    <p>Admin rejected Robert Johnson (robert.johnson@example.com).</p>
+                                    <span class="activity-time">Today, 12:20</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(255, 193, 7, 0.1); color: #ffc107;">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>Email Sent</h6>
+                                    <p>Welcome email sent to Emily Davis (emily.davis@example.com).</p>
+                                    <span class="activity-time">Today, 11:15</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(23, 162, 184, 0.1); color: #17a2b8;">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>Settings Updated</h6>
+                                    <p>Admin updated email notification settings.</p>
+                                    <span class="activity-time">Today, 10:30</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary-color);">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>New User Registration</h6>
+                                    <p>Michael Wilson (michael.wilson@example.com) registered to the waitlist.</p>
+                                    <span class="activity-time">Today, 10:30</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(40, 167, 69, 0.1); color: #28a745;">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>User Approved</h6>
+                                    <p>Admin approved Sarah Brown (sarah.brown@example.com).</p>
+                                    <span class="activity-time">Yesterday, 16:45</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(108, 117, 125, 0.1); color: #6c757d;">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h6>Data Export</h6>
+                                    <p>Admin exported user data to CSV.</p>
+                                    <span class="activity-time">Yesterday, 15:20</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="user-detail">
+                        <div class="user-detail-label">Full Name</div>
+                        <div class="user-detail-value">John Doe</div>
+                    </div>
+                    <div class="user-detail">
+                        <div class="user-detail-label">Email</div>
+                        <div class="user-detail-value">john.doe@example.com</div>
+                    </div>
+                    <div class="user-detail">
+                        <div class="user-detail-label">Registration Date</div>
+                        <div class="user-detail-value">May 15, 2023 14:30</div>
+                    </div>
+                    <div class="user-detail">
+                        <div class="user-detail-label">Status</div>
+                        <div class="user-detail-value"><span class="badge badge-pending">Pending</span></div>
+                    </div>
+                    <div class="user-detail">
+                        <div class="user-detail-label">Selected Paths</div>
+                        <div class="user-detail-value">
+                            <span class="path-tag">Option 1</span>
+                            <span class="path-tag">Option 3</span>
+                        </div>
+                    </div>
+                    <div class="user-detail">
+                        <div class="user-detail-label">IP Address</div>
+                        <div class="user-detail-value">192.168.1.1</div>
+                    </div>
+                    <div class="user-detail">
+                        <div class="user-detail-label">Referral Source</div>
+                        <div class="user-detail-value">Direct</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success">Approve</button>
+                    <button type="button" class="btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>
